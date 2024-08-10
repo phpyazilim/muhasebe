@@ -1,0 +1,3 @@
+abort(403, 'Forbidden') for a 403 Forbidden response.
+abort(500, 'Server Error') for a 500 Internal Server Error response.
+abort(401, 'Unauthorized') for a 401 Unauthorized response.

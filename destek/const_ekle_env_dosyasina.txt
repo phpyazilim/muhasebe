@@ -1,0 +1,22 @@
+env dosyasına eklenir 
+
+API_KEY=your_api_key_value
+
+
+
+config/api.php dosyası oluşturulur
+
+<?php
+
+return [
+    'key' => env('API_KEY', 'default_value'),
+];
+
+
+daha sonra controllersde şu şekilde kullanılır 
+
+$apiKey = config('api.key');
+
+blade içinde 
+
+{{ config('api.key') }}

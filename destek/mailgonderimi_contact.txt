@@ -1,0 +1,109 @@
+Mail Gönderme İşlemini Gerçekleştirme:
+Şimdi, iletişim formu gönderildiğinde mailin gönderilmesini sağlayacak olan bir Mail sınıfı oluşturmalısınız. 
+Örneğin, ContactMail adında bir sınıf oluşturalım:
+
+
+php artisan make:mail ContactMail
+
+
+Ardından, oluşturduğumuz bu sınıf içerisinde mailin nasıl olacağını belirtelim. 
+ContactMail sınıfının build metodu içinde mailin gönderileceği görünümü tanımlayabiliriz
+
+<?php
+
+namespace App\Mail;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
+
+class ContactMail extends Mailable
+{
+    use Queueable, SerializesModels;
+
+    public $formData;
+
+    public function __construct($formData)
+    {
+        $this->formData = $formData;
+    }
+
+    public function build()
+    {
+        return $this->view('emails.contact')->with(['formData' => $this->formData]);
+    }
+}
+
+
+Yukarıdaki sınıf, formData adında bir değişken alır ve emails.contact adlı bir görünüm dosyasını 
+kullanarak maili oluşturur.
+
+
+
+Formu İşleyen Controller Oluşturma:
+Ardından, form verilerini işleyecek bir controller oluşturun. Örneğin, 
+ContactController adında bir controller oluşturalım:
+
+php artisan make:controller SendMailController
+
+Ardından, bu controller içerisinde formun gönderildiği store metodunu tanımlayalım:
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactMail;
+
+class ContactController extends Controller
+{
+    public function store(Request $request) {
+        // Form verilerini al
+        $formData = $request->all();
+
+        // Mail gönder
+        Mail::to('recipient@example.com')->send(new ContactMail($formData));
+
+        // Başarı mesajı veya başka bir işlem yapılabilir
+        return redirect()->back()->with('success', 'İletişim formu başarıyla gönderildi!');
+    }
+}
+
+Route Oluşturma:
+Son olarak, iletişim formunun POST isteğini yönetecek bir route tanımlayın. 
+Örneğin, web.php dosyanızda şu şekilde bir route oluşturabilirsiniz:
+
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+Görünüm Dosyasını Oluşturma:
+Son olarak, mailin görünümünü tanımlayacağımız bir blade dosyası oluşturmalıyız. Örneğin, 
+resources/views/emails/contact.blade.php dosyasında mailin HTML yapısını oluşturabilirsiniz.
+
+Bu adımları takip ederek, Laravel ile iletişim formundan gelen verileri mail olarak gönderebilirsiniz.
+
+
+İşte basit bir contact.blade.php örneği:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form Submission</title>
+</head>
+<body>
+    <h2>Contact Form Submission</h2>
+    <p>A new message has been submitted through the contact form:</p>
+
+    <ul>
+        <li><strong>Name:</strong> {{ $formData['name'] }}</li>
+        <li><strong>Email:</strong> {{ $formData['email'] }}</li>
+        <li><strong>Subject:</strong> {{ $formData['subject'] }}</li>
+        <li><strong>Message:</strong> {{ $formData['message'] }}</li>
+    </ul>
+
+    <p>Thank you.</p>
+</body>
+</html>
+

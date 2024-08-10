@@ -1,0 +1,12 @@
+<link rel="stylesheet" href="{{asset('admin/lightbox/lightbox.min.css')}}" />
+
+<script src="{{asset('admin/lightbox/lightbox-plus-jquery.min.js')}}"></script> 
+
+
+
+
+ <a class="example-image-link"  href="{{asset($resim)}}"  data-lightbox="example-set" data-title="">
+       <img alt="" src="{{asset($resim)}}" class="example-image">
+ </a>
+                            
+

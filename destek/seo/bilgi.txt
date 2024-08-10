@@ -1,0 +1,72 @@
+php artisan make:model Sehir
+php artisan make:model Kelime
+
+
+---
+
+
+Route::get('/isitme/{slug1}/{slug2}', [HomeController::class, 'seo'])->name('front.isitme-cihazlari');
+
+
+
+____________
+
+
+   public function seo(  $slug1, $slug2) {
+
+
+          $sehir_ =  json_decode( getSehir($slug2), true);
+          $kelime_ =  json_decode( getKelime($slug1), true);
+           $sehir = $sehir_["adi"];
+           $kelime = $kelime_["baslik"];
+
+
+         $about = About::first();
+         $categories = Category::orderBy('rank','desc')->get();
+         $products = Product::orderby('id','desc')->get();
+         $featuredProducts = Product::where('status', 1)->with('category')->orderby('rank','desc')->limit(6)->get();
+         //dd($featuredProducts);
+         $references = Reference::all();
+         $sliders = Slider::all();
+         $lastBlogs = Blog::orderby('id','desc')->limit(6)->get();
+         $howToUses = HowToUse::orderby('id','asc')->get();
+         $homeImages = HomeImage::all()->first();
+
+         return view('site.pages.seo', compact( 'sehir', 'kelime','products','categories','featuredProducts', 'references', 'about','sliders','lastBlogs','howToUses','homeImages'));
+    }
+
+
+
+
+
+__________
+
+   Route::get('/sitemap.xml', 'sitemap')->name('sitemap');
+   Route::get('/isitme', 'isitme')->name('isitme');
+   Route::get('/isitme/{slug1}/{slug2}', [HomeController::class, 'seo'])->name('front.isitme-cihazlari');
+
+
+----------------------
+ 
+    <div style="width: 1px; height: 1px; position: absolute; overflow: hidden">
+  <h1> {{$sehir}}   {{$kelime}}  </h1>
+ 
+     </div>
+						
+						
+________________________________________
+
+
+   <div style="width: 1px; height: 1px; position: absolute; overflow: hidden">
+
+              @foreach (kelimeler() as $kelime)
+                  @foreach (sehirler() as $sehir)
+                 <a href="{{route('front.isitme-cihazlari',['slug1' => $kelime->url,'slug2' => $sehir->url, ])}}" >   {{ $kelime->alanAdi }}   </a>
+                   @endforeach
+              @endforeach
+
+
+
+
+          </div>
+
