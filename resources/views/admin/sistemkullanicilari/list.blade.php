@@ -2,7 +2,7 @@
 
 
 @section('title')
-    Markalar
+Sistem Kullanıcıları 
 @endsection
 
 
@@ -43,11 +43,12 @@
                                                 <thead>
                                                 <tr>
 
-                                                    <th style="width: 40%">Marka</th>
-                                                    <th style="width: 40%" align="left">Resim</th>
+                                                    <th style="width: 10%">Logo</th>
+                                                    <th style="width: 40%" align="left">Firma Adı</th>
+                                                    <th style="width: 40%" align="left">Kayıt Tarihi</th>
                                                     <th style="width: 10%">Durumu</th>
-
                                                     <th  style="width: 10%">İşlem</th>
+                                                    
                                                 </tr>
                                                 </thead>
                                                 <tbody class="table-border-bottom-0 sortable  " data-url="{{route('admin.marka.ranksetter')}}" >

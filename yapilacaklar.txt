@@ -1,5 +1,0 @@
-içerik tablosuna - silme - durum olmasın -  resim olmasın seçenekleri 
-ürünler kısmı geliştirilecek 
-veritabanı işlemleri -
-üyeler
-resimlerde kapak iptal et - içerik kısmında olacak 
