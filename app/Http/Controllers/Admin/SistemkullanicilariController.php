@@ -25,13 +25,71 @@ class SistemkullanicilariController extends Controller
 
     public function index() {
 
-        $kullanicilar = array();
+        $kullanicilar =  Sistemkullanicilari::orderBy('id', 'desc')->get();
+
 
         return view('admin.sistemkullanicilari.list' , compact('kullanicilar') );
 
     }
 
 
+
+    function add():View {
+
+        return view('admin.sistemkullanicilari.add'  );
+    }
+
+
+    function save(Request $request):RedirectResponse {
+
+        $firmaadi = $request->firmaadi;
+        $firmaemail = $request->firmaemail;
+        $firmatelefon = $request->firmatelefon;
+
+        $kullanici = new Sistemkullanicilari();
+        $kullanici->firma_adi = $firmaadi;
+        $kullanici->firma_email = $firmaemail;
+        $kullanici->firma_telefon = $firmatelefon;
+        $kullanici->save();
+
+        toastr()->success('Kayıt işlemi başarılı');
+        return redirect()->back();
+
+
+
+    }
+
+
+
+
+    function remove($id):RedirectResponse  {
+
+        $lang = Sistemkullanicilari::findOrFail($id);
+  
+        $lang->delete();
+        toastr()->success('silme işlemi başarılı');
+        return redirect()->back();
+
+    }
+
+
+
+    function isActiveSetter(Request $request, $id) {
+        echo "---------------------";
+        if($id) {
+            $durum = ($request->data === "true") ? 1 : 0;
+            $lang = Sistemkullanicilari::findOrFail($id);
+            $lang->isActive =$durum;
+            $lang->save();
+        }
+
+    }
+
+    function update_form($id):View {
+        $kullanici= Sistemkullanicilari::findOrFail($id);
+
+        return view('admin.sistemkullanicilari.update', compact('kullanici')  );
+    }
 
 
 

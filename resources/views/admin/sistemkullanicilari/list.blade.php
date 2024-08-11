@@ -20,10 +20,10 @@ Sistem Kullanıcıları
 
             <div class="row">
                 <div class="col-md-6">
-                    <h4 class="fw-bold py-3 mb-4 text-left" ><span class="text-muted fw-light">Sistem Kullanıcıları /</span> Sistem Kullanıcıları   </h4>
+                    <h4 class="fw-bold py-3 mb-4 text-left" ><span class="text-muted fw-light">Sistem Kullanıcıları /</span> Tüm Kullanıcılar  </h4>
                 </div>
                 <div class="col-md-6 " style="  text-align: right; padding-top: 15px">
-                    <a href="{{ route('admin.marka.add' ) }}" class="btn btn-primary "  data-title="Yeni Ekle" data-intro="Buradan ekleme işlemi yapabilirsiniz" data-step="2">Yeni Ekle</a>
+                    <a href="{{ route('admin.sistemkullanicilari.add' ) }}" class="btn btn-primary "  data-title="Yeni Ekle" data-intro="Buradan ekleme işlemi yapabilirsiniz" data-step="2">Yeni Ekle</a>
                 </div>
 
 
@@ -43,7 +43,7 @@ Sistem Kullanıcıları
                                                 <thead>
                                                 <tr>
 
-                                                    <th style="width: 10%">Logo</th>
+                                                 
                                                     <th style="width: 40%" align="left">Firma Adı</th>
                                                     <th style="width: 40%" align="left">Kayıt Tarihi</th>
                                                     <th style="width: 10%">Durumu</th>
@@ -51,27 +51,30 @@ Sistem Kullanıcıları
                                                     
                                                 </tr>
                                                 </thead>
-                                                <tbody class="table-border-bottom-0 sortable  " data-url="{{route('admin.marka.ranksetter')}}" >
+                                                <tbody class="table-border-bottom-0 "   >
 
                                                 @foreach($kullanicilar as $kullanici)
 
-                                                <tr   id="ord-{{ $kullanici->id }}"  data-title="Sıralama" data-intro="Bu satırı sürükleyip sıralamayı değiştirebilirsiniz" data-step="3">
-                                                    <td> <strong>{{ $kullanici->baslik }}</strong></td>
+                                                <tr >
+                                                 
+                                                    <td> <strong>{{ $kullanici->firma_adi }}</strong></td>
+                                                    <td> {{ $kullanici->firma_email }}</td>
+                                                    <td> {{ $kullanici->firma_telefon }}</td>
 
 
-                                                    <td>  <img
+                                                   {{--  <td>  <img
                                                             src="{{asset($kullanici->logo)}}"
                                                             alt="Marka İkonu"
                                                             class="d-block rounded"
                                                             width="100"
                                                             id="uploadedAvatar"
-                                                        /></td>
+                                                        /></td> --}}
 
 
                                                     <td data-title="Aktif/Pasif" data-intro="Burayı tıklayarak durumu aktif pasif hale getirebilirsiniz." data-step="4" >
                                                         <label class="switch">
                                                             <input
-                                                                data-url="{{ route('admin.marka.isActiveSetter', $kullanici->id) }}"
+                                                                data-url="{{ route('admin.sistemkullanicilari.isActiveSetter', $kullanici->id) }}"
                                                                 type="checkbox"
                                                                 class="checkbox isActive"
                                                                 {{ $kullanici->isActive == 1 ? 'checked' : '' }}
@@ -83,7 +86,7 @@ Sistem Kullanıcıları
                                                     <td>
 
                                                         <div style="display: flex; align-items: center;" >
-                                                            <form id="removeForm" name="kayitSil" method="post"  action="{{ route('admin.marka.remove', ['id' => $kullanici->id ]) }}">
+                                                            <form id="removeForm" name="kayitSil" method="post"  action="{{ route('admin.sistemkullanicilari.remove', ['id' => $kullanici->id ]) }}">
                                                                 @csrf
                                                                 @method('delete')
                                                                 <button type="button" class="btn rounded-pill btn-icon btn-danger remove-btn" data-title="Sil" data-intro="Silme işlemlerinizi burada yapabilirsiniz" data-step="5">
@@ -91,7 +94,7 @@ Sistem Kullanıcıları
                                                                 </button>
                                                             </form>
 
-                                                            <a href="{{ route('admin.marka.update_form', ['id' => $kullanici->id ]) }}" class=" mx-2 btn rounded-pill btn-icon btn-info " data-title="Güncelle" data-intro="Güncelleme işlemlerini buradan yapabilirsiniz" data-step="6">
+                                                            <a href="{{ route('admin.sistemkullanicilari.update_form', ['id' => $kullanici->id ]) }}" class=" mx-2 btn rounded-pill btn-icon btn-info " data-title="Güncelle" data-intro="Güncelleme işlemlerini buradan yapabilirsiniz" data-step="6">
                                                                 <i class="fas fa-pen"></i>
                                                             </a>
                                                         </div>

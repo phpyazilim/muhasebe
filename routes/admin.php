@@ -229,7 +229,7 @@ Route::group([
           Route::delete('/sistemkullanicilari/remove/{id}' , [SistemkullanicilariController::class , 'remove'] )->name('sistemkullanicilari.remove');
           Route::get('/sistemkullanicilari/update_form/{id}' , [SistemkullanicilariController::class , 'update_form'] )->name('sistemkullanicilari.update_form');
           Route::put('/sistemkullanicilari/update/{id}' , [SistemkullanicilariController::class , 'update'] )->name('sistemkullanicilari.update');
-     
+          Route::post('/sistemkullanicilari/isActiveSetter/{id}' , [SistemkullanicilariController::class , 'isActiveSetter'] )->name('sistemkullanicilari.isActiveSetter');
  
 
 });
