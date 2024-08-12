@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Models\User;
+use App\Models\Sistemkullanicilari;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request; 
 use Illuminate\View\View;
@@ -32,16 +33,33 @@ class UsersController extends Controller
 
 
    function add():View  {
-    return view("admin.users.add" );
+
+    $kullanicilar =  Sistemkullanicilari::orderBy('id', 'desc')->get();
+
+
+    $loginUser = Auth::user();
+    $id = $loginUser->id;
+
+  
+
+    return view("admin.users.add", compact('kullanicilar','loginUser' )  );
+
+
    }
 
 
  
 
   function update_form($id):View {
-
+    $kullanicilar =  Sistemkullanicilari::orderBy('id', 'desc')->get();
     $user = User::findOrFail($id);
-    return view('admin.users.update', compact('user','id') );
+
+    
+    $loginUser = Auth::user();
+    $id = $loginUser->id;
+
+
+    return view('admin.users.update', compact('kullanicilar','user','id','loginUser' ) );
 
   } 
 
@@ -60,6 +78,7 @@ class UsersController extends Controller
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->yetki_id = $request->yetki_id;
+        $user->sistem_id = $request->sistem_id;
 
      }
      
@@ -114,6 +133,7 @@ class UsersController extends Controller
         $useri->email = $request->email;
         $useri->phone = $request->phone;
         $useri->yetki_id = $request->yetki_id;
+        $useri->sistem_id = $request->sistem_id;
         $useri->user_type =  "admin";
         $useri->password = bcrypt($request->password);   
         $useri->save();

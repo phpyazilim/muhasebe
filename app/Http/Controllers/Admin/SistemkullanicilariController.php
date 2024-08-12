@@ -26,8 +26,7 @@ class SistemkullanicilariController extends Controller
     public function index() {
 
         $kullanicilar =  Sistemkullanicilari::orderBy('id', 'desc')->get();
-
-
+ 
         return view('admin.sistemkullanicilari.list' , compact('kullanicilar') );
 
     }

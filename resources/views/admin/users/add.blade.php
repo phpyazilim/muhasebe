@@ -107,17 +107,41 @@
                     />
                   </div>
 
+
  
                   <div class="col-md-6 mb-3">
                     <label for="exampleFormControlSelect1" class="form-label">Yetki Seçiniz    </label>
                     <select name="yetki_id" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
-                       
+                        
                         @foreach(getAllYetki() as $menu)
+                        @if($loginUser->sistem_id > 0)
+                            @if($menu->id > 39)
+                                <option value="{{ $menu->id }}">{{ $menu->baslik }}</option>
+                            @endif
+                        @else
                             <option value="{{ $menu->id }}">{{ $menu->baslik }}</option>
+                        @endif
+                        @endforeach
+ 
+
+                    </select>
+                </div>
+
+
+                @if($loginUser->sistem_id < 0)
+                  <div class="col-md-6 mb-3">
+                    <label for="exampleFormControlSelect1" class="form-label">Firma Seçiniz   </label>
+                    <select name="sistem_id" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
+                      <option value="-1">Hiçbiri</option>
+                        @foreach($kullanicilar as $firma)
+                            <option value="{{ $firma->id }}">{{ $firma->firma_adi }}</option>
                         @endforeach
 
                     </select>
                 </div>
+                @else
+                 <input type="hidden" name="sistem_id"  value="{{$loginUser->sistem_id}}">
+                @endif
 
 
 
